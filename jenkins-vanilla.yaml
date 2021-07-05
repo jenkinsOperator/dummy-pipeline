@@ -13,13 +13,14 @@ spec:
     configurations:
     - name: operator-github-configmap
     secret:
-      name: "user-config-secrets"
+      name: "welcome-config-secrets"
+      name: "github-conf-secrets"
     enableAutoReload: true
   groovyScripts:
     configurations:
       - name: operator-github-configmap
     secret:
-      name: "user-config-secrets"
+      name: "welcome-config-secrets"
   master:
     basePlugins:
     - name: kubernetes
