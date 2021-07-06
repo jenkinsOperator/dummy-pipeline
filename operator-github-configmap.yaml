@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 type: Opaque
 metadata:
-  name: user-config-secrets
+  name: welcome-config-secrets
   namespace: jenkins
 stringData:
   EXECUTORS_AMOUNT: "6"
