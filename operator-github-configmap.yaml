@@ -47,7 +47,7 @@ data:
   3-system-message.yaml: |
     jenkins:
       systemMessage: ${SYSTEM_MESSAGE}
-  5-configure-github-auth.yaml: |
+  4-configure-github-auth.yaml: |
     jenkins:
       securityRealm:
         github:
@@ -56,10 +56,12 @@ data:
           clientID: "d1f89c833d2a9141e762"
           clientSecret: ${GITHUB_SECRET}
           oauthScopes: "read:org,user:email,repo"
-  6-configure-github-authorization.yaml: |
+  5-configure-github-authorization.yaml: |
     jenkins:
       authorizationStrategy:
         globalMatrix:
           permissions:
+            - "Overall/Read:authenticated"
+            - "Overall/Administer:jenkins-operator"
             - "Overall/Administer:Sgb597"
             - "Overall/Read:authenticated"

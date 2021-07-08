@@ -24,9 +24,9 @@ spec:
   master:
     basePlugins:
     - name: kubernetes
-      version: "1.28.6"
+      version: "1.30.0"
     - name: workflow-job
-      version: "2.40"
+      version: "2.41"
     - name: workflow-aggregator
       version: "2.6"
     - name: git
@@ -36,7 +36,7 @@ spec:
     - name: configuration-as-code
       version: "1.51"
     - name: kubernetes-credentials-provider
-      version: "0.15"
+      version: "0.18-1"
     - name: github-oauth
       version: "0.33"
     - name: matrix-auth
@@ -51,6 +51,8 @@ spec:
       version: "1.0"
     - name: github
       version: "1.33.1"
+    - name: blueocean
+      version: "1.24.6"
     plugins:
       - name: simple-theme-plugin
         version: 0.5.1
