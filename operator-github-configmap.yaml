@@ -50,12 +50,12 @@ data:
   4-configure-github-auth.yaml: |
     jenkins:
       securityRealm:
-        github:
-          githubWebUri: "https://github.com"
-          githubApiUri: "https://api.github.com"
-          clientID: "d1f89c833d2a9141e762"
-          clientSecret: ${GITHUB_SECRET}
-          oauthScopes: "read:org,user:email,repo"
+        local:
+          allowsSignup: false
+          users:
+           - id: admin
+             password: admin
+  
   5-configure-github-authorization.yaml: |
     jenkins:
       authorizationStrategy:
@@ -64,4 +64,5 @@ data:
             - "Overall/Read:authenticated"
             - "Overall/Administer:jenkins-operator"
             - "Overall/Administer:Sgb597"
+            - "Overall/Administer:admin"
             - "Overall/Read:authenticated"
