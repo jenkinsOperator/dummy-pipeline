@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying New Build after Push!'
+                echo 'Deploying New Build after Push 2!'
             }
         }
     }
