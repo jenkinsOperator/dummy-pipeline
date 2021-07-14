@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying New Build after Push 2!'
+                echo 'Testing BlueOcean Job creation!'
             }
         }
     }
