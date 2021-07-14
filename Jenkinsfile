@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Testing BlueOcean Job creation!'
+                echo 'Testing BlueOcean Job creation and reaction to push events!'
             }
         }
     }
