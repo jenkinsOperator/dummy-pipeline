@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Testing push events!'
+                echo 'Second test for push events!'
             }
         }
     }
