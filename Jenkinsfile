@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Final test before moving on to github auth'
+                echo 'Final test before moving on to github oauth'
             }
         }
     }
