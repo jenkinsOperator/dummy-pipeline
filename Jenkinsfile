@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Final test before moving on to githuboauth'
+                echo 'Wish it was the final test for this'
             }
         }
     }
