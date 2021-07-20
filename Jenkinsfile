@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Wish it was the final test for this'
+                echo 'My configuration for Jenkins webhooks is succesful!'
             }
         }
     }
