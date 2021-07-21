@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'My configuration for Jenkins webhooks is succesful!'
+                echo 'My config for org oauth and repo builds works!'
             }
         }
     }
