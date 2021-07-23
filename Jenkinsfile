@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'My config for org oauth and repo builds works!'
+                echo 'My config for org oauth and repo builds works with k8s secrets!'
             }
         }
     }
