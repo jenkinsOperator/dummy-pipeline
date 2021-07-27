@@ -19,8 +19,28 @@ This plugin will utilize the organization that was previously created. The plugi
 
 ## Create a personal access token for Jenkins
 
+The following [article](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) on the GitHub page shows step by step how to obtain a personal access token in order for a user to connect the GitHub plugin in Jenkins with the GitHub platform where our project is stored.
+
+It is important to take into account that the project needs the user to define the scopes of this token's usage.
+Jenkins’ scope requirements depends on the task/s you wish like to perform:
+
+- admin:repo_hook - For managing hooks at GitHub Repositories level including for Multibranch Pipeline
+- admin:org_hook - For managing hooks at GitHub Organizations level for GitHub Organization Folders
+- repo - to see private repos. Please note that this is a parent scope, allowing full control of private repositories that includes:
+- repo:status - to manipulate commit statuses
+- repo:﻿repo_deployment - to manipulate deployment statuses
+- repo:﻿﻿public_repo - to access to public repositories
+- read:org and user:email - recommended minimum for GitHub OAuth Plugin scopes.
+
+Once this token has been created it is important to
+
+
 ## Creating an organization project in Jenkins
 
+ In order to implement the previous steps one must create a GitHub organization project in Jenkins. Inside this Organization Project the user must go to the Porjects section and fill out the fields like  in the following Screenshot. It is important that the API endpoint is set to <https://api.github.com> unless GitHub enterprise is being used. The Credentials will be automatically loaded by the configuration used with the Operator (see `operator-github.configmap.yaml`), and the owner must be set to the Organization's name. It is important to note that only username with password credentials are supported.
+
 <p align="center">
-    <img src=https://github.com/jenkinsOperator/dummy-pipeline/imgs/manage_jenkins.png>
+    <img src=https://github.com/jenkinsOperator/dummy-pipeline/blob/main/imgs/manage_jenkins.png>
 </p>
+
+This setup is enough to create a working Jenkins master instance that is capable of automatically listening to a GitHub repository and can authenticate users in an organization.
