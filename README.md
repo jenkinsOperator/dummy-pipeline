@@ -2,7 +2,71 @@
 
 # Jenkins operator
 
-# Github oauth plugin
+Jenkins-Operator deployment on Kubernetes.
+
+The following installation steps are based on the official operator documentation: [https://jenkinsci.github.io/kubernetes-operator/](https://jenkinsci.github.io/kubernetes-operator/)
+
+## 1. Requirements
+
+To run Jenkins Operator, you will need:
+
+- access to a **Kubernetes** cluster version **1.11+**
+- **kubectl** version **1.11+**
+
+
+## 2. Configure Custom Resource Definition
+
+A custom resource is an extension of the Kubernetes API that is not necessarily available in a default Kubernetes installation. It represents a customization of a particular Kubernetes installation. However, many core Kubernetes functions are now built using custom resources, making Kubernetes more modular. In our case it'll allow us to create the kind `Jenkins` which is how the Operator recognizes Jenkins instances.
+
+Create a namespace for the jenkins project:
+
+    kubectl create -f namespace.yaml
+
+Install Jenkins Custom Resource Definition:
+
+    kubectl -n jenkins apply -f jenkins_crd.yaml
+
+
+## 3. Deploy Jenkins Operator Using YAML’s
+
+Apply Service Account and RBAC roles (Jenkins Operator):
+
+    kubectl -n jenkins apply -f operator.yaml
+
+Watch Jenkins Operator instance being created:
+
+    kubectl -n jenkins get pods -w
+
+
+## 4. Add some initial jenkins configurations (ConfigMap)
+
+Since we are interested in utilizing Github for authentication and to connect our projects to the Jenkins instances we must configure jenkins adding a ConfigMap to modify the way the operator will interact with the jenkins instances we launch. In this case we must provide the operator with certain information. This information consists of modifying the authentication method (to use the Github plugin) and establish certain permissions to users:
+
+    kubectl -n jenkins apply -f operator-github-configmap.yaml
+
+
+## 5. Add kubernetes Secrets
+
+Usernames and their passwords, as also slack chat access:
+
+    kubectl -n jenkins apply -f github-conf-secrets.yaml
+
+**It is important to note that section 4. and 5. will be further explained in the sections *Github-oauth plugin* and *Github plugin*.**
+
+## 6. Create PVC
+
+Run the following command to create a new volume to store backup data:
+
+    kubectl -n jenkins create -f pvc.yaml
+
+## 7. Deploy Jenkins Instance
+
+Once Jenkins Operator is up and running let’s deploy the Jenkins instance:
+
+    kubectl -n jenkins create -f jenkins_vanilla.yaml
+
+
+# Github-oauth plugin
 
 In order to enable authentication via the oauth plugin one must first have an organization created. Github allows users to create organizations in a user's settings page. Once created, an app must be registered under the organization's name. This app will be the "entrypoint" from which we will authenticate users. The Github App gives users the possiblity to use oauth tokens as a way to authenticate the identity of a user. The admin must create a token and save the ID and the Secret in order for users to gain access once the setup has been done. It is also necessary for the admin to specify the Homepage URL as well as the authorization callback URL (which must end in /securityRealm/finishLogin).
 
