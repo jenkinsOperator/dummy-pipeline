@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2021-07-27T16:14:47Z"
+  generation: 51
+  name: seed-job-agent-vanilla
+  namespace: jenkins
+  ownerReferences:
+  - apiVersion: jenkins.io/v1alpha2
+    blockOwnerDeletion: true
+    controller: true
+    kind: Jenkins
+    name: vanilla
+    uid: 5f3bf8d0-8d1d-44f2-884c-69309110ce3b
+  resourceVersion: "1643559"
+  uid: 3a39910a-2e0f-4445-a554-71fb9d1ab8bc
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: seed-job-agent-selector
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: seed-job-agent-selector
+    spec:
+      containers:
+      - env:
+        - name: JENKINS_TUNNEL
+          value: jenkins-operator-slave-vanilla.jenkins.svc.cluster.local:50000
+        - name: JENKINS_SECRET
+          value: d848db0d19807c2f9c147d40bde02a2adeb2ef9e4363527a266b69b0e0eb868b
+        - name: JENKINS_AGENT_NAME
+          value: seed-job-agent
+        - name: JENKINS_URL
+          value: http://jenkins-operator-http-vanilla.jenkins.svc.cluster.local:8080
+        - name: JENKINS_AGENT_WORKDIR
+          value: /home/jenkins/agent
+        image: jenkins/inbound-agent:alpine
+        imagePullPolicy: IfNotPresent
+        name: jnlp
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /home/jenkins/agent
+          name: home
+        - mountPath: /home/jenkins/workspace
+          name: workspace
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - emptyDir: {}
+        name: home
+      - emptyDir: {}
+        name: workspace
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2021-07-27T16:14:53Z"
+    lastUpdateTime: "2021-07-27T16:14:53Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2021-07-27T16:14:47Z"
+    lastUpdateTime: "2021-07-27T16:14:53Z"
+    message: ReplicaSet "seed-job-agent-vanilla-76b6bcd6d6" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 51
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+
