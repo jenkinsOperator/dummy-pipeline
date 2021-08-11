@@ -6,13 +6,14 @@ Jenkins-Operator deployment on Kubernetes.
 
 The following installation steps are based on the official operator documentation: [https://jenkinsci.github.io/kubernetes-operator/](https://jenkinsci.github.io/kubernetes-operator/)
 
-## 1. Requirements
+## 1. Specs
 
-To run Jenkins Operator, you will need:
+This setup has been the following versions:
 
-- access to a **Kubernetes** cluster version **1.11+**
-- **kubectl** version **1.11+**
-
+- minikube version: v1.21.0
+- Client Version: version.Info{Major:"1", Minor:"21", GitVersion:"v1.21.2", GitCommit:"092fbfbf53427de67cac1e9fa54aaa09a28371d7", GitTreeState:"clean", BuildDate:"2021-06-16T12:59:11Z", GoVersion:"go1.16.5", Compiler:"gc", Platform:"linux/amd64"}
+- Server Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.7", GitCommit:"132a687512d7fb058d0f5890f07d4121b3f0a2e2", GitTreeState:"clean", BuildDate:"2021-05-12T12:32:49Z", GoVersion:"go1.15.12", Compiler:"gc", Platform:"linux/amd64"}
+- Jenkins Operator v0.6
 
 ## 2. Configure Custom Resource Definition
 
