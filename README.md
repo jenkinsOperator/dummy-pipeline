@@ -53,13 +53,8 @@ Usernames and their passwords, as also slack chat access:
 
 **It is important to note that section 4. and 5. will be further explained in the sections *Github-oauth plugin* and *Github plugin*.**
 
-## 6. Create PVC
 
-Run the following command to create a new volume to store backup data:
-
-    kubectl -n jenkins create -f pvc.yaml
-
-## 7. Deploy Jenkins Instance
+## 6. Deploy Jenkins Instance
 
 Once Jenkins Operator is up and running let’s deploy the Jenkins instance:
 
