@@ -108,3 +108,23 @@ Once this token has been created it is important to
 </p>
 
 This setup is enough to create a working Jenkins master instance that is capable of automatically listening to a GitHub repository and can authenticate users in an organization.
+
+## Utilizing Ephemeral Agents and Syncing them to the Operator
+
+One of the Jenkins best practices when it comes to the master-agent setup is to execute jobs in Jenkins agents instead of the master. This is considered a best practice because  of security reasons and because the master node is only supposed to manage the rest of the nodes, not execute jobs. Therefore, it is within the scope of this IaC project to include the possibility of dynamically creating these agents without having the user go through the tedious configuration with the GUI. The Kubernetes plugin in conjunction with the Jenkins Operator have the very powerful ability of dynamically provisioning and interconnecting pods with very little configuration needed. The Kubernetes plugin is automatically configured through the Jenkins Operator, this means that the plugin is already preconfigured and ready to spin up pods inside our cluster whenever needed. The following screen capture contains an example of how the Operator automatically configures our Kubernetes Cloud section within our Jenkins setup:
+
+<p align="center">
+    <img src=https://github.com/jenkinsOperator/dummy-pipeline/blob/main/imgs/k8s_setup.png>
+</p>
+
+With this setup it is only necessary to dynamically create our pods via a Jenkinsfile Declarative Pipeline. In the test case for this part of the project I have utilized an excerpt from an example used by CloudBees found in the following [gist](https://gist.github.com/darinpope/67c297b3ccc04c17991b22e1422df45a). Pipeline Version 3 has been used in the test case and it is a pipeline that demonstrates the various capabilities of the Kubernetes plugin:
+
+1. It shows how we can automatically select the Kubernetes cloud by simply selecting it as our agent.
+2. It allows us to pass a YAML file directly via the pipeline.
+3. Shows how the containers created in the new Pod can see the same data with the hello.txt example.
+
+With this Declarative Pipeline our Jenkins instance will automatically create a new pod where we will execute our build whenever we have a push event to our GitHub repository. The following figure shows how our new pod is automatically created and connected to our cluster only with the push event.
+
+<p align="center">
+    <img src=https://github.com/jenkinsOperator/dummy-pipeline/blob/main/imgs/ephemeral_agents.png>
+</p>
