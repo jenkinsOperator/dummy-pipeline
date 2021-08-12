@@ -6,14 +6,13 @@ Jenkins-Operator deployment on Kubernetes.
 
 The following installation steps are based on the official operator documentation: [https://jenkinsci.github.io/kubernetes-operator/](https://jenkinsci.github.io/kubernetes-operator/)
 
-## 1. Specs
+## 1. Requirements
 
-This setup has been the following versions:
+To run Jenkins Operator, you will need:
 
-- minikube version: v1.21.0
-- Client Version: version.Info{Major:"1", Minor:"21", GitVersion:"v1.21.2", GitCommit:"092fbfbf53427de67cac1e9fa54aaa09a28371d7", GitTreeState:"clean", BuildDate:"2021-06-16T12:59:11Z", GoVersion:"go1.16.5", Compiler:"gc", Platform:"linux/amd64"}
-- Server Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.7", GitCommit:"132a687512d7fb058d0f5890f07d4121b3f0a2e2", GitTreeState:"clean", BuildDate:"2021-05-12T12:32:49Z", GoVersion:"go1.15.12", Compiler:"gc", Platform:"linux/amd64"}
-- Jenkins Operator v0.6
+- access to a **Kubernetes** cluster version **1.11+**
+- **kubectl** version **1.11+**
+
 
 ## 2. Configure Custom Resource Definition
 
@@ -109,4 +108,24 @@ Once this token has been created it is important to
 </p>
 
 This setup is enough to create a working Jenkins master instance that is capable of automatically listening to a GitHub repository and can authenticate users in an organization.
+
+## Utilizing Ephemeral Agents and Syncing them to the Operator
+
+One of the Jenkins best practices when it comes to the master-agent setup is to execute jobs in Jenkins agents instead of the master. This is considered a best practice because  of security reasons and because the master node is only supposed to manage the rest of the nodes, not execute jobs. Therefore, it is within the scope of this IaC project to include the possibility of dynamically creating these agents without having the user go through the tedious configuration with the GUI. The Kubernetes plugin in conjunction with the Jenkins Operator have the very powerful ability of dynamically provisioning and interconnecting pods with very little configuration needed. The Kubernetes plugin is automatically configured through the Jenkins Operator, this means that the plugin is already preconfigured and ready to spin up pods inside our cluster whenever needed. The following screen capture contains an example of how the Operator automatically configures our Kubernetes Cloud section within our Jenkins setup:
+
+<p align="center">
+    <img src=https://github.com/jenkinsOperator/dummy-pipeline/blob/main/imgs/k8s_setup.png>
+</p>
+
+With this setup it is only necessary to dynamically create our pods via a Jenkinsfile Declarative Pipeline. In the test case for this part of the project I have utilized an excerpt from an example used by CloudBees found in the following [gist](https://gist.github.com/darinpope/67c297b3ccc04c17991b22e1422df45a). Pipeline Version 3 has been used in the test case and it is a pipeline that demonstrates the various capabilities of the Kubernetes plugin:
+
+1. It shows how we can automatically select the Kubernetes cloud by simply selecting it as our agent.
+2. It allows us to pass a YAML file directly via the pipeline.
+3. Shows how the containers created in the new Pod can see the same data with the hello.txt example.
+
+With this Declarative Pipeline our Jenkins instance will automatically create a new pod where we will execute our build whenever we have a push event to our GitHub repository. The following figure shows how our new pod is automatically created and connected to our cluster only with the push event.
+
+<p align="center">
+    <img src=https://github.com/jenkinsOperator/dummy-pipeline/blob/main/imgs/ephemeral_agents.png>
+</p>
 
