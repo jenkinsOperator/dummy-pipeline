@@ -1,13 +1,38 @@
-podTemplate(label: label,
-        containers: [
-                containerTemplate(name: 'jnlp', image: 'jenkins/inbound-agent:latest', ttyEnabled: true, command: 'cat'),
-        ],
-        ) {
-    node(label) {
-        stage('Run shell') {
-            container('jnlp') {
-                sh 'echo "hello world"'
-            }
-        }
+pipeline {
+  agent {
+    kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: maven
+            image: maven:alpine
+            command:
+            - cat
+            tty: true
+          - name: node
+            image: node:16-alpine3.12
+            command:
+            - cat
+            tty: true
+        '''
     }
+  }
+  stages {
+    stage('Run maven') {
+      steps {
+        container('maven') {
+          sh 'mvn -version'
+          sh ' echo Hello World > hello.txt'
+          sh 'ls -last'
+        }
+        container('node') {
+          sh 'npm version'
+          sh 'cat hello.txt'
+          sh 'ls -last'
+        }
+      }
+    }
+  }
 }
