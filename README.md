@@ -111,7 +111,14 @@ This setup is enough to create a working Jenkins master instance that is capable
 
 ## Utilizing Ephemeral Agents and Syncing them to the Operator
 
-One of the Jenkins best practices when it comes to the master-agent setup is to execute jobs in Jenkins agents instead of the master. This is considered a best practice because  of security reasons and because the master node is only supposed to manage the rest of the nodes, not execute jobs. Therefore, it is within the scope of this IaC project to include the possibility of dynamically creating these agents without having the user go through the tedious configuration with the GUI. The Kubernetes plugin in conjunction with the Jenkins Operator have the very powerful ability of dynamically provisioning and interconnecting pods with very little configuration needed. The Kubernetes plugin is automatically configured through the Jenkins Operator, this means that the plugin is already preconfigured and ready to spin up pods inside our cluster whenever needed. The following screen capture contains an example of how the Operator automatically configures our Kubernetes Cloud section within our Jenkins setup:
+One of the Jenkins best practices when it comes to the master-agent setup is to execute jobs in Jenkins agents instead of the master. This is considered a best practice because  of security reasons, for performance reasons, and because the master node is only supposed to manage the rest of the nodes, not execute jobs. In distributed systems this architecture is known as the "sidecar pattern". This architecture describes a single-node pattern made up of two containers where the master container contains the core logic for the application and without this container the application would not be able to function. In addition to the application container, there is a sidecar container. whose role  is to augment and improve the application container, often without the application container’s knowledge.
+
+<p align="center">
+    <img src=https://github.com/jenkinsOperator/dummy-pipeline/blob/main/imgs/side_car.png>
+</p>
+
+
+Therefore, it is within the scope of this IaC project to include the possibility of dynamically creating these agents without having the user go through the tedious configuration with the GUI. The Kubernetes plugin in conjunction with the Jenkins Operator have the very powerful ability of dynamically provisioning and interconnecting pods with very little configuration needed. The Kubernetes plugin is automatically configured through the Jenkins Operator, this means that the plugin is already preconfigured and ready to spin up pods inside our cluster whenever needed. The following screen capture contains an example of how the Operator automatically configures our Kubernetes Cloud section within our Jenkins setup:
 
 <p align="center">
     <img src=https://github.com/jenkinsOperator/dummy-pipeline/blob/main/imgs/k8s_setup.png>
